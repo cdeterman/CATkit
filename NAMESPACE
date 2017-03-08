@@ -1,0 +1,36 @@
+# exportPattern(^[[:alpha:]]+)
+# importFrom(foo, f, g)  to get only the package
+export(CatCall)
+export(CATCosinor)
+import(MASS)  
+import(rtf)
+import(png)
+#import(multitaper)
+import(season)
+import(magic)
+#import(utils)
+#import(stats)
+#import(graphics)
+#import(grDevices)
+importFrom("grDevices", "as.raster", "dev.cur", "dev.off", "gray",
+
+             "heat.colors", "jpeg", "palette", "pdf", "png", "rainbow",
+
+             "terrain.colors", "tiff")
+
+importFrom("graphics", "abline", "axis", "barplot", "box", "boxplot",
+
+             "image", "layout", "legend", "lines", "mtext", "par",
+
+             "plot", "plot.new", "points", "rasterImage", "strwidth",
+
+             "text", "title")
+
+importFrom("stats", "TukeyHSD", "acf", "aov", "ccf", "coefficients",
+
+             "drop1", "end", "fft", "median", "model.tables",
+
+             "na.action", "na.omit", "pf", "ts", "var")
+
+importFrom("utils", "read.table", "str", "tail", "write.table")
+import(signal)

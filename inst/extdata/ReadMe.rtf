@@ -1,0 +1,162 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+\cocoascreenfonts1{\fonttbl\f0\fnil\fcharset0 Tahoma;\f1\fnil\fcharset0 HelveticaNeue;\f2\froman\fcharset0 Times-Roman;
+}
+{\colortbl;\red255\green255\blue255;\red115\green115\blue115;\red88\green151\blue205;\red132\green132\blue132;
+\red98\green98\blue98;\red85\green85\blue85;\red86\green86\blue86;\red91\green152\blue203;\red103\green103\blue103;
+\red116\green116\blue116;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\margl1440\margr1440\vieww11980\viewh15700\viewkind0
+\deftab720
+\pard\pardeftab720
+
+\f0\fs28 \cf2 Follow Quick Start instructions, in the lower half of this file, if you are comfortable with minimal guidance. \'a0For more detailed instructions, follow instructions in the upper half. \'a0Information on functions CAT performs can be found in {\field{\*\fldinst{HYPERLINK "http://weebly-link/517756915191519872"}}{\fldrslt \cf3 Analysis Techniques}}. \'a0Further details on parameterization is given under {\field{\*\fldinst{HYPERLINK "http://weebly-link/547666038977574549"}}{\fldrslt \cf3 Running CAT}}.\
+\
+These instructions assume you have R and RStudio installed.   If you have \cf4 already\cf2  installed CATkit and simply want to update it, download the latest \cf3 CATkit_x.x.tar.gz\cf2 . \cf5 \'a0
+\f1 \cf6 Do not unpack it. 
+\f2 \cf5 \'a0
+\f0 \cf2 (To uninstall a previous version from RStudio, in the RStudio "Packages" tab, click the X at the far right of the CATkit package name.)\
+\
+\pard\pardeftab720
+
+\f1 \cf7 Note for Mac users: \'a0To avoid unpacking the tar.gz on download, right click (2-finger click) on filename and "Download Linked File As...". \'a0Or you can turn off unpacking in Safari: \'a0http://apple.stackexchange.com/questions/961/how-to-stop-safari-from-unzipping-files-after-download
+\f0\b \cf2 \
+\pard\pardeftab720
+\cf2 \
+-----------------------------------------\
+Detailed Installation Instructions  \
+\pard\pardeftab720\sl420
+
+\b0 \cf2 Download 
+\b "installing_cat.zip"
+\b0 , unzip, and read instructions in Installing CAT folder.
+\b \
+The download includes the following:
+\b0 \
+Installing Packages v1.1.pdf\
+Installing CAT from tar.pdf\'a0 \'a0\'a0\
+Four {\field{\*\fldinst{HYPERLINK "http://564394709114639785.weebly.com/vignettes.html"}}{\fldrslt \cf8 Vignette}} folders,\'a0 and Vignette.r script to run them\
+Sample Data folder\
+Read Me.rtf\
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl420
+\ls1\ilvl0\cf2 {\listtext	\'95	}\'a0 First, follow the instructions in "Installing Packages vx.x.pdf"\
+{\listtext	\'95	}\'a0 Second, install CATkit package below following instructions in "Installing CAT from tar.pdf" \'a0 (This also includes instructions for running Vignettes.)\
+\pard\pardeftab720\sl420
+\cf2 \
+With gratitude to the Alessandro Bartolomucci lab for sharing murine activity data for use in these {\field{\*\fldinst{HYPERLINK "http://564394709114639785.weebly.com/vignettes.html"}}{\fldrslt \cf8 vignettes}}.\
+\pard\pardeftab720
+\cf2 \
+\pard\pardeftab720\sl420
+
+\b \cf2 Vignette 0: \'a0
+\b0  Performs a multiple-component cosinor analysis, composed of 3 cosines of periods 24, 12 and 8 hours. \'a0A model with multiple cosines is used because it may fit the data better than a single cosine model. \'a0\
+data: \'a0 \'a0\'a0 Clgi001.dat \
+output:\'a0 clgi001.datnoTaper\'97[date]Vignette0Cos .rtf\
+\'a0\'a0\'a0 \'a0\'a0\'a0 \'a0\'a0\'a0  clgi001.datnoTaper--[date]Vignette0Cos.dat \
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0\'a0\'a0clgi001.datnoTaper--[date]Vignette0Cos .pdf \'a0 
+\b \
+\
+Vignette 1:\'a0 
+\b0 Artificially generated test data contains two pure frequencies:\'a0 48-hrs and 24-hrs.\'a0 The call to CAT performs a sweep of frequencies, a spectrum analysis, to identify where there are periodic rhythms present in a time series.\'a0\'a0 \
+data: \'a0 \'a0 \'a0Signal10-20.txt\'a0\
+output:\'a0 Signal10-20.txtnoTaper--[date]Vignette1Cos.pdf;\'a0 \
+\'a0\'a0\'a0 \'a0\'a0\'a0 \'a0\'a0\'a0 Signal10-20.txtnoTaper--[date]Vignette1Cos.rtf; \
+\'a0\'a0\'a0 \'a0\'a0\'a0 \'a0\'a0\'a0 Signal10-20.txtnoTaper--[date]Vignette1Cos.dat.\'a0 \'a0 \
+\
+
+\b Vignette 2:\'a0 
+\b0 Using systolic blood pressure data from the first month of a newborn's life, a progressive cosinor analysis is performed across spans of data, and for a spectrum of frequencies at each\'a0span. \
+data: \'a0 \'a0 \'a0FWedited.txt\'a0\
+output:\'a0 FWedited.txtnoTaper--[date]Vignette2Cos.pdf;\
+FWedited.txtnoTaper--[date]Vignette2Cos.rtf;\
+FWedited.txtnoTaper--[date]Vignette2Cos.dat\'a0 \'a0\'a0 \
+\
+
+\b Vignette 3: \'a0
+\b0 Performs smoothing, actogram, autocorrelation and crosscorrelation on two sets of murine activity data, comparing phase difference.\
+data: \'a0 \'a0 \'a0good-6d-2m-part.txt\'a0\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \'a0 activity stress c57--stress copy2-part.txt\
+output:\'a0 activity stress c57--stress copy2-part.txt--[date]output.pdf\'a0\
+\
+With gratitude to the Alessandro Bartolomucci lab for sharing murine activity data for use in these vignettes.\
+\pard\pardeftab720
+\cf2 --------------------------------------------------------------\
+--------------------------------------------------------------\
+
+\b QuickStart Installation Instructions
+\b0 \
+\
+These instructions assume you have R and RStudio installed. \'a0\
+\
+
+\b Installing packages: \'a0
+\b0 \
+These packages should be added before installing CAT, if they are not already there:\'a0\'a0\
+stats\
+utils\
+MASS\
+graphics\
+png\
+signal\
+season\
+rtf\
+grDevices\
+magic\
+\
+In RStudio, in the lower right window, click on the Packages tab, search for each package. \'a0If the package is found, it is already installed. \'a0If not found you can install it by clicking on Install Packages, and typing in the name of each package to be installed, one at a time, or all together. \'a0Copy and paste this string into the Packages field: \'a0\
+\
+\'a0 \'a0 stats utils MASS graphics season rtf png grDevices signal magic\
+\
+(If you are asked which server to load from, pick one that is recommended, or nearby). The top field, Install From, should say CRAN. \'a0(If you are asked which server to load from, pick one that is recommended, or nearby). \'a0You can normally accept all the defaults, and click the Install button. \'a0After installing these, check the box beside the name of each of the above in the Packages tab. \'a0This will load them for use.\'a0\
+\
+
+\b Installing CAT
+\b0 \
+1. \'a0Download the 
+\b CATkit_x.x.tar.gz
+\b0  file. \'a0
+\b Do not unzip
+\b0 , simply save.\
+\
+2. \'a0Install as a package into RStudio. \'a0\
+In RStudio, in the right hand window, go to the Packages tab, click on Install Packages. \'a0Select Package Archive File in the Install From drop down. \'a0Browse to select\'a0
+\b CATkitx.x.tar.gz
+\b0  as the Package Archive.\'a0\'a0\
+\
+3. \'a0Check the box beside CATkit package name in the Packages tab. \'a0You may get warnings if your version of R is older, but this is usually not a problem.\
+\
+\pard\pardeftab720
+
+\b \cf9 Step 4: \'a0Running Vignettes
+\b0 \
+After installation, you can run some tests to see sample outputs\
+Download\'a0{\field{\*\fldinst{HYPERLINK "http://564394709114639785.weebly.com/uploads/4/6/0/5/4605921/installing_cat.zip"}}{\fldrslt 
+\b \ul installing_CAT.zip}}\'a0and unzip to a known location. \'a0In the "Installing CAT" folder, follow instructions on page 2 of "Installing CAT from tar.pdf ". \'a0Compare your output file to those included in the download. \'a0If your output matches the sample file, you'll know the package is working correctly.\'a0\
+\
+
+\b Input File Formats
+\b0 \
+Input formats must meet the requirements described here. \'a0Examples can be found in the\'a0\'a0{\field{\*\fldinst{HYPERLINK "http://564394709114639785.weebly.com/uploads/4/6/0/5/4605921/installing_cat.zip"}}{\fldrslt 
+\b \ul installing_CAT.zip}}
+\b \'a0
+\b0 download file, in the folder
+\b \'a0"
+\b0 Sample Formats". \'a0\cf2 See also sample input files in the vignettes folders found in that download, or on the {\field{\*\fldinst{HYPERLINK "http://564394709114639785.weebly.com/data-formats.html"}}{\fldrslt \cf8 Data Formats}} web page.\
+\pard\pardeftab720\sl420
+\cf2 \
+Date and Time can be in any column, in any of three formats (seconds are discarded): \'a0\
+1) \'a0numeric (in number of hours from starting time); \'a0\
+2)\'a0
+\f1 \cf10  a one column date/time character string in any format, as specified by the timeFormat parameter\
+\pard\pardeftab720
+\cf10 3) \'a0a two column format consisting of Date in the first column, and Time in the second, as specified by the timeFormat parameter:\'a0 c(3,6).\
+\
+The timeFormat parameter uses R time formatting, e.g., "%Y-%m-%d %H:%M:%S".\'a0 See R function strptime for time formatting details.
+\f0 \cf2 \
+\pard\pardeftab720\sl420
+\cf2 \
+--The data column(s) can be in any column, but are best if they are purely numbers. \'a0Any non-numeric data values will cause errors. \'a0The exception to this is the header line. \'a0Data files can optionally have a header (see\'a0{\field{\*\fldinst{HYPERLINK "http://564394709114639785.weebly.com/running-cat.html"}}{\fldrslt \cf8 Running Cat}}, or\'a0{\field{\*\fldinst{HYPERLINK "http://564394709114639785.weebly.com/running-cat-cosinor.html"}}{\fldrslt \cf8 Running CAT Cosinor}}\'a0for parameterization of a header). \'a0See the following sample data files in the folder "Sample Formats".\
+Format 1: \'a0SampleSines.txt \'a0(comma delimited)\
+Format 2: \'a0FWedited.txt \'a0 \'a0 \'a0 (comma delimited)\
+Format 3: \'a0good-6d-2m-part.txt \'a0(tab delimited)}
