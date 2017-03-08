@@ -1,3 +1,5 @@
+
+#' @export
 CATCosinor <-
 function (TimeCol=1,Y=2, Components=1, window="noTaper", RefDateTime=NA,  timeFormat="%Y%m%d%H%M", RangeDateTime=list(Start=NA, End=NA), Units="hours", dt=0, Progressive=list(Interval=0, Increment=0), Period=list(Set=0,Start=0,Increment=1,End=0),header=FALSE, Skip=0, Colors="BW",Graphics="pdf",Output=list(Txt=FALSE,Dat=TRUE, Doc=TRUE,Graphs=FALSE),yLabel="", Console=FALSE,Debug=FALSE,IDcol="fileName", fileName=fileName,functionName="") {    #GraphSet is another parameter used to override proper graphics
   # yLabel=expression(paste("Body Temp (",degree~C,")", sep="")), 

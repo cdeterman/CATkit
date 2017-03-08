@@ -1,3 +1,14 @@
+
+#' @import MASS rtf png season magic signal
+#' @importFrom grDevices as.raster dev.cur dev.off gray heat.colors 
+#' jpeg palette pdf png rainbow terrain.colors tiff
+#' @importFrom graphics abline axis barplot box boxplot image 
+#' layout legend lines mtext par plot plot.new points
+#' rasterImage strwidth text title
+#' @importFrom stats TukeyHSD acf aov ccf coefficients drop1 end fft median
+#' model.tables na.action na.omit pf ts var
+#' @importFrom utils read.table str tail write.table
+#' @export
 CatCall <-
 function (TimeCol=1, timeFormat="%Y%m%d%H%M",lum=4, valCols=c(3,4), sumCols=c(5,6), Avg=FALSE, export=FALSE, sizePts=2, binPts=5, Span = 0, Increment=0, k=6, yLab="Activity Level (au)", modulo=1440,Rverbose=0, RmaxGap=400, Skip=0,header=FALSE, Smoothing=FALSE, Actogram=FALSE,AutoCorr=FALSE,CrossCorr=FALSE,Console=FALSE,Graphics="pdf", Darkness=1,LagPcnt=.33,tz="GMT",fileName,file2=list(Name=NULL,TimeCol=1, timeFormat="%Y%m%d%H%M", lum=4, valCols=c(3,4), sumCols=c(5,6),sizePts=2, binPts=5,Darkness=0)) {   #  ,Multitaper=F
   # at this point, lum works for both files, file2$lum is not yet working
