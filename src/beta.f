@@ -3,6 +3,9 @@ c
 c     This function computes the beta function. The function calls 'gamlog'
 c     and 'pnorm'.
 c
+      
+      real, intent(in)       ::  z, a, b
+      
       ike=1
       if(z.lt.0.)stop
       if(z.gt.0.)go to 10

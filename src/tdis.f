@@ -2,6 +2,9 @@
 c
 c     This function calls 'beta' to compute the beta function.
 c
+      
+      real, intent(in)       ::  z, ndf
+      
       if(ndf.le.0)stop
       df=ndf
       zz=1./(1.+z*z/df)

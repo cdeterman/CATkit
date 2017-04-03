@@ -4,6 +4,10 @@ c     This function computes the value of the t-distribution given the
 c     probability level and the number of degrees of freedom. Other
 c     functions required are 'tdis', 'beta' and 'gamlog'.
 c
+
+      real, intent(in)       ::  ndf
+      real                   ::  p
+      
       n=0
       if(ndf.le.0)stop
       if(p.lt.0..or.p.gt.1.)stop

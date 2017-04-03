@@ -5,6 +5,9 @@ c     are based on a polynomial approximation given by M. Abramowitz and
 c     A. Stegun (Handbook of Mathematical Functions, Dover, 1965;
 c     formula 6.1.36).
 c
+
+      real  :: z
+      
       if(z.le.0.)stop
       iz=ifix(z)
       x=z-float(iz)
