@@ -69,9 +69,9 @@ CATCosinor2 <-
         tz="GMT"
         opar = par()
         # read data;  if no data file name given, prompt the user for the filename
-        if (length(fileName)==0){
-            fileName <- file.choose()
-        }
+        # if (length(fileName)==0){
+        #     fileName <- file.choose()
+        # }
         is.wholenumber <-  function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
         
         LCM<-Period$Set[1]
