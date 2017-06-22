@@ -41,4 +41,3 @@ Period arguments, and any time variable. ToDo:  modify to use units other than h
 \item{dt}{When equidistant data, dt indicates the sampling interval.  If dt =0, no periodogram is done.
 Data is assumed to be equidistant when this is nonzero}
 }
-

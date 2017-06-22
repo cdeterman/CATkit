@@ -32,3 +32,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+
+static const R_CallMethodDef CallEntries[] = {
+    {"CATkit_cpp_bmpop", (DL_FUNC) &CATkit_cpp_bmpop, 6},
+    {"CATkit_cpp_test", (DL_FUNC) &CATkit_cpp_test, 1},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_CATkit(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}
