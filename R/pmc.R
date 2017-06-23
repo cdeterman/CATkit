@@ -143,10 +143,18 @@ pmc_internal <- function(X, alpha = 0.05, perd = 24){
     c23 <- (-(sigma_matrix[2,2] - sigma_matrix[3,3]) * (beta_hat*gamma_hat) + sigma_matrix[2,3]*(beta_hat^2 - gamma_hat^2)) / (k * Amp^2)
     c33 <- (sigma_matrix[2,2] * gamma_hat^2 - 2 * sigma_matrix[2,3] * beta_hat * gamma_hat + sigma_matrix[3,3]*beta_hat^2) / (k * Amp^2)
     
-    Phi1 <- Phi + atan((c23 * tval^2 + tval*sqrt(c33) * sqrt(Amp^2 - (c22*c33 - c23^2) * (tval^2)/c33))/(Amp^2 - c22*tval^2)) * 180/pi
-    Phi2 <- Phi + atan((c23 * tval^2 - tval*sqrt(c33) * sqrt(Amp^2 - (c22*c33 - c23^2) * (tval^2)/c33))/(Amp^2 - c22*tval^2)) * 180/pi
-    Phi1 <- phase(Phi1)
-    Phi2 <- phase(Phi2)
+    an1 <- Amp^2 - (c22*c33 - c23^2) * (tval^2)/c33
+    
+    if(an1 < 0){
+        Phi1 <- 0
+        Phi2 <- 0
+    }else{
+        Phi1 <- Phi + atan((c23 * tval^2 + tval*sqrt(c33) * sqrt(an1))/(Amp^2 - c22*tval^2)) * 180/pi
+        Phi2 <- Phi + atan((c23 * tval^2 - tval*sqrt(c33) * sqrt(an1))/(Amp^2 - c22*tval^2)) * 180/pi
+        Phi1 <- phase(Phi1)
+        Phi2 <- phase(Phi2)
+    }
+    
     
     # p-value calculation
     r <- sigma_matrix[2,3]/sqrt(sigma_matrix[2,2]*sigma_matrix[3,3])
@@ -166,11 +174,11 @@ pmc_internal <- function(X, alpha = 0.05, perd = 24){
     out[1,"Mesor"] <- round(Mesor, 3)
     out[1,"Mesor.CI"] <- round(cim, 3)
     out[1,"Amplitude"] <- round(Amp, 3)
-    out[1,"Amplitude.CI.Lower"] <- round(Amp - cia, 3)
-    out[1,"Amplitude.CI.Upper"] <- round(Amp + cia, 3)
+    out[1,"Amplitude.CI.Lower"] <- ifelse(p < alpha, round(Amp - cia, 3), 0)
+    out[1,"Amplitude.CI.Upper"] <- ifelse(p < alpha, round(Amp + cia, 3), 0)
     out[1,"Acrophase"] <- round(Phi, 3)
-    out[1,"Acrophase.CI.Lower"] <- round(Phi1 - 0.5, 3)
-    out[1,"Acrophase.CI.Upper"] <- round(Phi2 - 0.5, 3)
+    out[1,"Acrophase.CI.Lower"] <- ifelse(p < alpha, round(Phi1 - 0.5, 3), 0)
+    out[1,"Acrophase.CI.Upper"] <- ifelse(p < alpha, round(Phi2 - 0.5, 3), 0)
     out[1,"Period"] <- perd
     
     return(out)
