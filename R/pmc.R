@@ -33,8 +33,22 @@ pmc.test <- function(data, alpha = 0.05, perd = 24){
 #' @export
 pmc.default <- function(data, alpha = 0.05, perd = 24, GrpID = NA){
     
-    if(!all(c("PR","Mesor", "Amp", "PHI") %in% colnames(data))){
-        stop("data does not contain required variables ('PR','Mesor', 'Amp', 'PHI')")
+    vars <- tolower(colnames(data))
+    colnames(data) <- vars
+    
+    if(!all(c("pr", "mesor", "amp", "phi") %in% vars)){
+        if(!"pr" %in% vars){
+            data$pr <- NA
+        }
+        if(!"mesor" %in% vars){
+            data$mesor <- NA
+        }
+        if(!"amp" %in% vars){
+            data$amp <- 1
+        }
+        if(!"phi" %in% vars){
+            stop("data must contain 'phi' for PMC")   
+        }
     }
     
     if(is.null(GrpID) | any(is.na(GrpID))){
@@ -100,16 +114,16 @@ pmc_internal <- function(X, alpha = 0.05, perd = 24){
     k <- nrow(X)
     df <- k - 1
     
-    beta= X$Amp*cos(X$PHI * pi/180)
-    gamma=-X$Amp*sin(X$PHI * pi/180)
+    beta= X$amp*cos(X$phi * pi/180)
+    gamma=-X$amp*sin(X$phi * pi/180)
     
     beta_hat <- mean(beta)
     gamma_hat <- mean(gamma)
     
     # fill covariance matrix (triangular)
-    sigma_matrix[1,1] <- sum((X$Mesor - mean(X$Mesor))^2)/df
-    sigma_matrix[1,2] <- sum((X$Mesor - mean(X$Mesor)) %*% (beta - mean(beta)))/df
-    sigma_matrix[1,3] <- sum((X$Mesor - mean(X$Mesor)) %*% (gamma - mean(gamma)))/df
+    sigma_matrix[1,1] <- sum((X$mesor - mean(X$mesor))^2)/df
+    sigma_matrix[1,2] <- sum((X$mesor - mean(X$mesor)) %*% (beta - mean(beta)))/df
+    sigma_matrix[1,3] <- sum((X$mesor - mean(X$mesor)) %*% (gamma - mean(gamma)))/df
     sigma_matrix[2,2] <- sum((beta - mean(beta))^2)/df
     sigma_matrix[2,3] <- sum((beta - mean(beta)) %*% (gamma - mean(gamma)))/df
     sigma_matrix[3,3] <- sum((gamma - mean(gamma))^2)/df
@@ -118,16 +132,16 @@ pmc_internal <- function(X, alpha = 0.05, perd = 24){
     sigma_matrix[lower.tri(sigma_matrix)] <- sigma_matrix[upper.tri(sigma_matrix)]
     
     # Percentage Rhythm
-    PR <- mean(X$PR)
+    pr <- mean(X$pr)
     
     # Population Mesor
-    Mesor <- mean(X$Mesor)
+    mesor <- mean(X$mesor)
     
     # Population Acrophase
-    Phi <- -phsrd(beta, gamma)
+    phi <- -phsrd(beta, gamma)
     
     # Population Amplitude
-    Amp <- module(beta, gamma)
+    amp <- module(beta, gamma)
     
     # t-value
     tval <- qt(1-alpha/2, df)
@@ -136,23 +150,23 @@ pmc_internal <- function(X, alpha = 0.05, perd = 24){
     cim <- tval * sqrt(sigma_matrix[1,1]/k)
     
     # Amplitude CI
-    c22 <- (sigma_matrix[2,2] * beta_hat^2 + 2*sigma_matrix[2,3]*beta_hat*gamma_hat + sigma_matrix[3,3] * gamma_hat^2) / (k * Amp^2)
+    c22 <- (sigma_matrix[2,2] * beta_hat^2 + 2*sigma_matrix[2,3]*beta_hat*gamma_hat + sigma_matrix[3,3] * gamma_hat^2) / (k * amp^2)
     cia <- tval*sqrt(c22)
     
     # Acrophase CI
-    c23 <- (-(sigma_matrix[2,2] - sigma_matrix[3,3]) * (beta_hat*gamma_hat) + sigma_matrix[2,3]*(beta_hat^2 - gamma_hat^2)) / (k * Amp^2)
-    c33 <- (sigma_matrix[2,2] * gamma_hat^2 - 2 * sigma_matrix[2,3] * beta_hat * gamma_hat + sigma_matrix[3,3]*beta_hat^2) / (k * Amp^2)
+    c23 <- (-(sigma_matrix[2,2] - sigma_matrix[3,3]) * (beta_hat*gamma_hat) + sigma_matrix[2,3]*(beta_hat^2 - gamma_hat^2)) / (k * amp^2)
+    c33 <- (sigma_matrix[2,2] * gamma_hat^2 - 2 * sigma_matrix[2,3] * beta_hat * gamma_hat + sigma_matrix[3,3]*beta_hat^2) / (k * amp^2)
     
-    an1 <- Amp^2 - (c22*c33 - c23^2) * (tval^2)/c33
+    an1 <- amp^2 - (c22*c33 - c23^2) * (tval^2)/c33
     
     if(an1 < 0){
-        Phi1 <- 0
-        Phi2 <- 0
+        phi1 <- 0
+        phi2 <- 0
     }else{
-        Phi1 <- Phi + atan((c23 * tval^2 + tval*sqrt(c33) * sqrt(an1))/(Amp^2 - c22*tval^2)) * 180/pi
-        Phi2 <- Phi + atan((c23 * tval^2 - tval*sqrt(c33) * sqrt(an1))/(Amp^2 - c22*tval^2)) * 180/pi
-        Phi1 <- phase(Phi1)
-        Phi2 <- phase(Phi2)
+        phi1 <- phi + atan((c23 * tval^2 + tval*sqrt(c33) * sqrt(an1))/(amp^2 - c22*tval^2)) * 180/pi
+        phi2 <- phi + atan((c23 * tval^2 - tval*sqrt(c33) * sqrt(an1))/(amp^2 - c22*tval^2)) * 180/pi
+        phi1 <- phase(phi1)
+        phi2 <- phase(phi2)
     }
     
     
@@ -169,16 +183,16 @@ pmc_internal <- function(X, alpha = 0.05, perd = 24){
     
     # This could be much more concise but doing it like this to be explicit
     out[1,"k"] <- as.integer(k)
-    out[1,"P.R."] <- as.integer(round(mean(X$PR)))
+    out[1,"P.R."] <- as.integer(round(mean(X$pr)))
     out[1,"P"] <- p
-    out[1,"Mesor"] <- round(Mesor, 3)
+    out[1,"Mesor"] <- round(mesor, 3)
     out[1,"Mesor.CI"] <- round(cim, 3)
-    out[1,"Amplitude"] <- round(Amp, 3)
-    out[1,"Amplitude.CI.Lower"] <- ifelse(p < alpha, round(Amp - cia, 3), 0)
-    out[1,"Amplitude.CI.Upper"] <- ifelse(p < alpha, round(Amp + cia, 3), 0)
-    out[1,"Acrophase"] <- round(Phi, 3)
-    out[1,"Acrophase.CI.Lower"] <- ifelse(p < alpha, round(Phi1 - 0.5, 3), 0)
-    out[1,"Acrophase.CI.Upper"] <- ifelse(p < alpha, round(Phi2 - 0.5, 3), 0)
+    out[1,"Amplitude"] <- round(amp, 3)
+    out[1,"Amplitude.CI.Lower"] <- ifelse(p < alpha, round(amp - cia, 3), 0)
+    out[1,"Amplitude.CI.Upper"] <- ifelse(p < alpha, round(amp + cia, 3), 0)
+    out[1,"Acrophase"] <- round(phi, 3)
+    out[1,"Acrophase.CI.Lower"] <- ifelse(p < alpha, round(phi1 - 0.5, 3), 0)
+    out[1,"Acrophase.CI.Upper"] <- ifelse(p < alpha, round(phi2 - 0.5, 3), 0)
     out[1,"Period"] <- perd
     
     return(out)
@@ -215,14 +229,14 @@ module <- function(beta, gamma){
     return(amp)
 }
 
-phase <- function(Phi){
-    if(Phi > 0){
-        Phi <- Phi - 360
+phase <- function(phi){
+    if(phi > 0){
+        phi <- phi - 360
     }
-    if(Phi < -360){
-        Phi <- Phi + 360
+    if(phi < -360){
+        phi <- phi + 360
     }
-    return(Phi)
+    return(phi)
 }
 
 
