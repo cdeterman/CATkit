@@ -34,7 +34,8 @@ pmc.test <- function(data, alpha = 0.05, perd = 24){
 pmc.default <- function(data, alpha = 0.05, perd = 24, GrpID = NA){
     
     vars <- tolower(colnames(data))
-    colnames(data) <- vars
+    idx <- which(vars %in% c("pr", "mesor", "amp", "phi"))
+    colnames(data)[idx] <- vars[idx]
     
     if(!all(c("pr", "mesor", "amp", "phi") %in% vars)){
         if(!"pr" %in% vars){
@@ -57,6 +58,9 @@ pmc.default <- function(data, alpha = 0.05, perd = 24, GrpID = NA){
         
         # some quick input checks and define splitting factor
         if(is.character(GrpID)){
+            if(!is.factor(data[,GrpID])){
+                data[,GrpID] <- factor(data[,GrpID])
+            }
             split_factor <- data[,GrpID]
             rownames <- unique(data[,GrpID])
         }else{
