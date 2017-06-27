@@ -29,7 +29,7 @@ pmc.test <- function(data, alpha = 0.05, perd = 24){
     return(result)   
 }
 
-#' @importFrom assertive assert_is_character
+#' @importFrom assertive assert_is_character assert_is_numeric
 #' @export
 pmc.default <- function(data, alpha = 0.05, perd = 24, GrpID = NA){
     
@@ -62,8 +62,10 @@ pmc.default <- function(data, alpha = 0.05, perd = 24, GrpID = NA){
                 data[,GrpID] <- factor(data[,GrpID])
             }
             split_factor <- data[,GrpID]
-            rownames <- unique(data[,GrpID])
+            rownames <- NULL
+            # rownames <- unique(data[,GrpID])
         }else{
+            print(class(GrpID))
             assert_is_numeric(GrpID)
             if(sum(GrpID) > nrow(data)){
                 stop("Group Indices exceed data rows")
@@ -72,11 +74,15 @@ pmc.default <- function(data, alpha = 0.05, perd = 24, GrpID = NA){
                 warning("Group Indices are less than number of rows. \nAnalysis will omit some rows")
             }
             split_factor <- rep(1:length(GrpID), GrpID)
-            if(!is.null(names(idx))){
-                rownames <- names(idx)
+            if(!is.null(names(GrpID))){
+                rownames <- names(GrpID)
             }else{
                 rownames <- NULL
             }
+        }
+        
+        if(is.null(rownames)){
+            rownames <- names(split(data, split_factor))    
         }
         
         # loop over each group and bind results together
