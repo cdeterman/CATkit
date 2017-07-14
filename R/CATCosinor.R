@@ -572,7 +572,7 @@ if (!exists("GraphSet")){
     }
   }    #    end Period$End==0
   cat(Period$Start," Period$Start ",Period$End," Period$End ",Period$Start,"Period$Start",Interval,"Interval",Increment,"Increment\n")
-
+  
 paramMsg<-paste("\n  TimeCol=",TimeCol,",  Y=",Y, ",  header=",header,"\n --  Periods=",Period["Set"],", Units=",Units, ",  Interval=",format(Interval,nsmall=3), ",  Increment=",format(Increment,nsmall=3), "\nPeriod$Start=",format(Period$Start,nsmall=3), ",  FreqInc=",format(FreqInc,nsmall=3), ",  Period$End=",format(Period$End,nsmall=3), "\nRefDateTime=",RefDateTime, ", StartTime=",format(StartTime,nsmall=3),", EndTime=",format(EndTime,nsmall=3),"\nPercent of missing (blank) sample values: %",missingData*100,"\n",functionName,"\n")
 
   par(mar=c(4,4,1,1)) # set up margins
@@ -631,8 +631,9 @@ if (Increment> MyData_hours) {
     sumMean[yNew,Progression_end+1]<-mean(MyData[,y], na.rm=TRUE)
     sumMedian[yNew,Progression_end+1]<-median(MyData[,y], na.rm=TRUE)   #  could be proper dt if VERY irregular data
     sumSD[yNew,Progression_end+1]<-sqrt(var(MyData[,y],y=NULL))
-    sumTab<-tabulate(MyData[,y]*1000)          #  acts only on integer values, ensure integers;   each value is counted in it's cardinal location     
-    dTtest<-which(sumTab == max(sumTab, na.rm=TRUE))/1000   #  which data value is most often used? 
+     #  which data value is most often used? 
+    sumTab <- table(as.integer(MyData[,y]))
+    dTtest<-which(sumTab == max(sumTab, na.rm=TRUE))
     sumT[yNew,Progression_end+1]<-dt
     if (length(dTtest)>1){    # if more than 4 are the same as the max dT, average them to get Mode
       sumMode[yNew,Progression_end+1] <- mean(dTtest, na.rm=TRUE)
@@ -888,8 +889,9 @@ Page<-0
         sumMedian[y,j]<-median(newData, na.rm=TRUE)   
 
         sumSD[y,j]<-sqrt(var(newData,y=NULL))
-        sumTab<-tabulate(newData*1000)          #  acts only on integer values, ensure integer;   each value is counted in it's cardinal location     
-        dTtest<-which(sumTab == max(sumTab, na.rm=TRUE))/1000   #  
+        # which value used most often
+        sumTab <- table(as.integer(newData))
+        dttest <- which(sumTab == max(sumTab, na.rm=TRUE))
         
         sumT[y,j]<-dt
         if (length(dTtest)>1){    # if more than 4 are the same as the max dT, use mean instead of median
