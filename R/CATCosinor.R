@@ -632,7 +632,7 @@ if (Increment> MyData_hours) {
     sumMedian[yNew,Progression_end+1]<-median(MyData[,y], na.rm=TRUE)   #  could be proper dt if VERY irregular data
     sumSD[yNew,Progression_end+1]<-sqrt(var(MyData[,y],y=NULL))
      #  which data value is most often used? 
-    sumTab <- table(as.integer(MyData[,y]))
+    sumTab <- table(MyData[,y] * 1000)
     dTtest<-which(sumTab == max(sumTab, na.rm=TRUE))
     sumT[yNew,Progression_end+1]<-dt
     if (length(dTtest)>1){    # if more than 4 are the same as the max dT, average them to get Mode
@@ -890,7 +890,7 @@ Page<-0
 
         sumSD[y,j]<-sqrt(var(newData,y=NULL))
         # which value used most often
-        sumTab <- table(as.integer(newData))
+        sumTab <- table(newData * 1000)
         dttest <- which(sumTab == max(sumTab, na.rm=TRUE))
         
         sumT[y,j]<-dt
