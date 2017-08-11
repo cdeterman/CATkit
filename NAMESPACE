@@ -2,12 +2,12 @@
 
 S3method(pmc,default)
 export(CATCosinor)
-export(CATCosinor2)
 export(CatCall)
 export(consolidate)
 export(cpp_bmpop)
 export(cpp_test)
 export(pmc)
+export(pmtest)
 import(MASS)
 import(magic)
 import(png)
