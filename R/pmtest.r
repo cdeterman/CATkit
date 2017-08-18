@@ -71,11 +71,15 @@ pmtest_internal <- function(X, alpha = 0.05, GrpID = NA){
 	
 	# Eq. 66
 	#sigma_matrix_hat <- sum((k - 1) * sigma_matrices / (K - m))
-	sigma_matrix_hat <- Reduce(`+`, lapply(mapply(`*`, k-1, sigma_matrices, SIMPLIFY=FALSE), function(x) x/(K - m)))
+    sigma_matrix_hat <- Reduce(`+`, lapply(1:m, function(x) (k[x] - 1) * sigma_matrices[[x]]/(K - m)))
 	
 	M_bar <- sum(k * M)/K
 	beta_bar <- sum(k * beta_hat)/K
 	gamma_bar <- sum(k * gamma_hat)/K
+	
+	print(mean(X$mesor))
+	print(A_star)
+	print(phi_star)
 
 	# Eq. 67
 	t_mat <- matrix(0, nrow = 3, ncol = 3)
@@ -102,6 +106,7 @@ pmtest_internal <- function(X, alpha = 0.05, GrpID = NA){
 	print(J)
 	# Eq. 70
 	D <- det(diag(2) + J/(K-m))
+	print("D")
 	print(D)
 
 	if(m > 2){
