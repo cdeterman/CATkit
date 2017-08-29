@@ -136,19 +136,6 @@ pmtest_internal <- function(X, alpha = 0.05, GrpID = NA){
     # if den > 0 = -pi/4 and pi/4
     # if den < 0 = pi/4 and 3*pi/4 = 0.7853982 and 2.356194
     
-    # tmp <- 180/pi * atan(num/den)
-    # 
-    # # correction if in different quadrants
-    # if(m_beta < 0 | m_gamma < 0){
-    #     if(m_beta > 0){
-    #         # If in Quadrant IV
-    #         tmp <- tmp + 360
-    #     }else{
-    #         # If in Quandrant II or III
-    #         tmp <- tmp + 180
-    #     }
-    # }
-    
     # Eq. 74
     num <- sum(k * A^2 * sin((phi * pi/180) - phi_tilda)^2)/(m - 1)
     den <- (sigma_matrix_hat[2,2] * sin(phi_tilda)^2) + (2 * sigma_matrix_hat[2,3] * cos(phi_tilda) * sin(phi_tilda)) + (sigma_matrix_hat[3,3] * cos(phi_tilda)^2)
