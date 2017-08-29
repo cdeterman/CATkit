@@ -38,7 +38,9 @@ pmtest_internal <- function(X, alpha = 0.05, GrpID = NA){
     
     # total sample size
     K <- nrow(X)
+    # number of populations
     m <- length(unique(X[,GrpID]))
+    # population sample sizes
     k <- table(X[,GrpID])
     
     # split populations
@@ -106,7 +108,6 @@ pmtest_internal <- function(X, alpha = 0.05, GrpID = NA){
     print(J)
     # Eq. 70
     D <- det(diag(2) + J/(K-m))
-    print("D")
     print(D)
     
     if(m > 2){
@@ -127,11 +128,30 @@ pmtest_internal <- function(X, alpha = 0.05, GrpID = NA){
     den <- sum(k * A^2 * cos(2*phi * pi/180))
     #num <- Reduce(`+`, Reduce(function(x, y) Map(`*`, x, y), list(k, A^2, sin(2*phi * pi/180))))
     #den <- Reduce(`+`, Reduce(function(x, y) Map(`*`, x, y), list(k, A^2, cos(2*phi * pi/180))))
-    phi_tilda <- atan(num/den)/2 * pi/180
+    
+    if(den < 0){
+        phi_tilda <- atan(num/den)/2 + pi/2
+    }
+    
+    # if den > 0 = -pi/4 and pi/4
+    # if den < 0 = pi/4 and 3*pi/4 = 0.7853982 and 2.356194
+    
+    # tmp <- 180/pi * atan(num/den)
+    # 
+    # # correction if in different quadrants
+    # if(m_beta < 0 | m_gamma < 0){
+    #     if(m_beta > 0){
+    #         # If in Quadrant IV
+    #         tmp <- tmp + 360
+    #     }else{
+    #         # If in Quandrant II or III
+    #         tmp <- tmp + 180
+    #     }
+    # }
     
     # Eq. 74
     num <- sum(k * A^2 * sin((phi * pi/180) - phi_tilda)^2)/(m - 1)
-    den <- sigma_matrix_hat[2,2] * sin(phi_tilda)^2 + 2 * sigma_matrix_hat[2,3] * cos(phi_tilda) * sin(phi_tilda) + sigma_matrix_hat[3,3] * cos(phi_tilda)^2
+    den <- (sigma_matrix_hat[2,2] * sin(phi_tilda)^2) + (2 * sigma_matrix_hat[2,3] * cos(phi_tilda) * sin(phi_tilda)) + (sigma_matrix_hat[3,3] * cos(phi_tilda)^2)
     phi_fval <- num/den
     phi_p <- pf(phi_fval, df1 = m-1, df2 = K-m, lower.tail = FALSE)
     
