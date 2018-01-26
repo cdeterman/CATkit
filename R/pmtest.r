@@ -104,10 +104,13 @@ pmtest_internal <- function(X, alpha = 0.05, GrpID = NA){
     
     # multivariate test of rhythm parameters
     # Eq. 69
-    J <- (sigma_matrix_hat[2:3, 2:3]^-1) %*% t1
+    J <- solve(sigma_matrix_hat[2:3, 2:3]) %*% t1
+    # J <- t1/sigma_matrix_hat[2:3, 2:3]
     print(J)
     # Eq. 70
     D <- det(diag(2) + J/(K-m))
+    
+    # should be ~ 1.548542
     print(D)
     
     if(m > 2){
@@ -126,8 +129,6 @@ pmtest_internal <- function(X, alpha = 0.05, GrpID = NA){
     # tan(2*phi_tilda) = sum(mapply(`*`, k, A^2) * sin(2*phi * pi/180)) / sum(mapply(`*`, k, A^2) * cos(2*phi * pi/180))
     num <- sum(k * A^2 * sin(2*phi * pi/180))
     den <- sum(k * A^2 * cos(2*phi * pi/180))
-    #num <- Reduce(`+`, Reduce(function(x, y) Map(`*`, x, y), list(k, A^2, sin(2*phi * pi/180))))
-    #den <- Reduce(`+`, Reduce(function(x, y) Map(`*`, x, y), list(k, A^2, cos(2*phi * pi/180))))
     
     if(den < 0){
         phi_tilda <- atan(num/den)/2 + pi/2
