@@ -7,15 +7,16 @@ pmtest <- function(X, alpha = 0.05, GrpID = NA, SubGrp = NA){
         stop("GrpID must be defined")
     }
     
-    if(!is.na(SubGrp)){
+    if(all(!is.na(SubGrp))){
         if(!all(SubGrp %in% X[,GrpID])){
             stop("Some SubGrp ids not found in GrpID column")
         }
     }
     
     # filter to any subgroups
-    if(!is.na(SubGrp)){
+    if(all(!is.na(SubGrp))){
         X <- X[X[,GrpID] %in% SubGrp,]    
+        X[,GrpID] <- factor(X[,GrpID])
     }
     
     out <- pmtest_internal(X, alpha = alpha, GrpID = GrpID)
@@ -62,7 +63,7 @@ pmtest_internal <- function(X, alpha = 0.05, GrpID = NA){
     
     # Population Acrophases
     phi <- mapply(function(b, g) -phsrd(b, g), beta, gamma)
-    phi_star <- -phsrd(beta_star, gamma_star)
+    phi_star <- round(-phsrd(beta_star, gamma_star))
     
     # Population Amplitudes
     A <- mapply(function(b, g) module(b, g), beta, gamma)
@@ -78,10 +79,6 @@ pmtest_internal <- function(X, alpha = 0.05, GrpID = NA){
     M_bar <- sum(k * M)/K
     beta_bar <- sum(k * beta_hat)/K
     gamma_bar <- sum(k * gamma_hat)/K
-    
-    print(mean(X$mesor))
-    print(A_star)
-    print(phi_star)
     
     # Eq. 67
     t_mat <- matrix(0, nrow = 3, ncol = 3)
@@ -105,12 +102,9 @@ pmtest_internal <- function(X, alpha = 0.05, GrpID = NA){
     # multivariate test of rhythm parameters
     # Eq. 69
     J <- solve(sigma_matrix_hat[2:3, 2:3]) %*% t1
-    # J <- t1/sigma_matrix_hat[2:3, 2:3]
-    print(J)
+    
     # Eq. 70
     D <- det(diag(2) + J/(K-m))
-    
-    # should be ~ 1.548542
     print(D)
     
     if(m > 2){
@@ -118,8 +112,10 @@ pmtest_internal <- function(X, alpha = 0.05, GrpID = NA){
         rhythm_fval <- (K-m-1)/(m-1) * (sqrt(D) - 1)
         rhythm_p <- pf(rhythm_fval, df1 = 2*m - 2, 2*K - 2*m - 2, lower.tail = FALSE)
     }else{
+        print('m <= 2')
         # Eq. 72
         rhythm_fval <- (sum(k) - 3)/2 * (D - 1)
+        print(rhythm_fval)
         rhythm_p <- pf(rhythm_fval, df1 = 2, df2 = sum(k) - 3, lower.tail = FALSE)
     }
     
@@ -155,14 +151,10 @@ pmtest_internal <- function(X, alpha = 0.05, GrpID = NA){
     amp_p <- pf(amp_fval, df1 = m-1, df2 = K-m, lower.tail = FALSE)
     
     # combined params
-    print(M_bar)
-    print(A_star)
-    print(phi_star)
-    
     out <- data.frame(F = c(m_fval, amp_fval, phi_fval, rhythm_fval),
                       P = c(m_p, amp_p, phi_p, rhythm_p))
     row.names(out) <- c("Mesor", "Amplitude", "Acrophase", "(A, phi)")
-    # out <- data.frame(Mesor = m_p, Rhythm = rhythm_p, Acrophase = phi_p, Amplitude = amp_p)
+    
     return(out)
 }
 
